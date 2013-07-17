@@ -9,7 +9,7 @@ weekdays = ['monday',
             'sunday']
 
 class Service(object):
-  def __init__(self, data, ):
+  def __init__(self, **data ):
     self.__dict__.update(data)
     if not self.__dict__.has_key('_start_date'):
       self._start_date = datetime.strptime(self.start_date, '%Y%m%d').date()
@@ -25,7 +25,7 @@ class Service(object):
     yield self.__dict__
     
   def addTrip(self, trip):
-    trips.append(trip)
+    self.trips.append(trip)
     
   def addDate(self, exception):
     self.addExceptions.append(exception)
@@ -34,7 +34,7 @@ class Service(object):
     self.removeExceptions.append(exception)
     
   def hasDate(self, date):
-    for exception in addExceptions:
+    for exception in self.addExceptions:
       if exception.hasDate(date):
         return true
 
@@ -42,7 +42,7 @@ class Service(object):
       return false
     if self.__dict__[weekdays[date.weekday()]] == '0':
       return false
-    for exception in removeExceptions:
+    for exception in self.removeExceptions:
       if exception.hasDate(date):
         return false
     
@@ -50,10 +50,11 @@ class Service(object):
   
   
 class CalendarException(object):
-  def __init__(self, data, service):
+  def __init__(self, service, **data):
     self.__dict__.update(data)
     self._date = datetime.strptime(self.date, '%Y%m%d').date()
     
+    self.service = service
     if int(self.exception_type) == 1:
       service.addDate(self)
     else:

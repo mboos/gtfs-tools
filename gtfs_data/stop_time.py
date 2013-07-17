@@ -1,5 +1,5 @@
 class StopTime(object):
-  def __init__(self, data, stop, trip):
+  def __init__(self, stop, trip, **data):
     self.__dict__.update(data)
     
     stop.addStopTime(self)
