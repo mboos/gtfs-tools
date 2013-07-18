@@ -51,15 +51,9 @@ def loadGTFS(folder):
   routes = loadRoutes(folder, agencies)
   trips = loadTrips(folder, routes, services)
   stopTimes = loadStopTimes(folder, trips, stops)
-  
-  print 'Agencies:', len(agencies)
-  print 'Services:', len(services)
-  print 'Exceptions:', len(exceptions)
-  print 'Stops:', len(stops)
-  print 'Routes:', len(routes)
-  print 'Trips:', len(trips)
-  print 'Stop Times:', len(stopTimes)
+
   #TODO fares, zones, frequencies, etc.
+  return TransitSystem(agencies, services, exceptions, routes, trips, stops, stopTimes)
 
 if __name__ == '__main__':
   import argparse
@@ -67,4 +61,12 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument(dest='folder')
   args = parser.parse_args()
-  loadGTFS(args.folder)
+  ts = loadGTFS(args.folder)
+  
+  print 'Agencies:', len(ts.agencies)
+  print 'Services:', len(ts.services)
+  print 'Exceptions:', len(ts.exceptions)
+  print 'Stops:', len(ts.stops)
+  print 'Routes:', len(ts.routes)
+  print 'Trips:', len(ts.trips)
+  print 'Stop Times:', len(ts.stopTimes)
